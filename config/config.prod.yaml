@@ -6,11 +6,11 @@ app:
 # mysql配置
 mysql:
   enable: true
-  user: root
-  password: 123456
+  user: rust_nuzn
+  password: yScCMKWLzMmTmehr
   host: 127.0.0.1
   port: 3306
-  dbname: admin_nuzn
+  dbname: rust_nuzn
 
 # redis配置
 redis:

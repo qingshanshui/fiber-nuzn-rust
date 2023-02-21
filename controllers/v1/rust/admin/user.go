@@ -1,4 +1,4 @@
-package v1
+package admin
 
 import (
 	"fiber-nuzn-rust/controllers"
@@ -10,25 +10,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type DefaultController struct {
+type UserController struct {
 	controllers.Base
 }
 
-func NewDefaultController() *DefaultController {
-	return &DefaultController{}
+func NewUserController() *UserController {
+	return &UserController{}
 }
 
-func (t *DefaultController) List(c *fiber.Ctx) error {
-	// 实际业务调用
-	api, err := service.NewDefaultService().List()
-	if err != nil {
-		initalize.Log.Info(err)
-		return c.Status(500).JSON(t.Fail(err))
-	}
-	return c.JSON(t.Ok(api)) // => ✋ register
-}
-
-func (t *DefaultController) Category(c *fiber.Ctx) error {
+// 用户详情
+func (t *UserController) Userinfo(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	categoryForm := form.CategoryRequest{}
 	// 绑定参数并使用验证器验证参数

@@ -1,8 +1,8 @@
 package service
 
 import (
-	"fiber-layout/models"
-	v1 "fiber-layout/validator/form"
+	"fiber-nuzn-rust/models"
+	v1 "fiber-nuzn-rust/validator/form"
 )
 
 type Default struct {

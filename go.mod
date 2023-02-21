@@ -1,4 +1,4 @@
-module fiber-layout
+module fiber-nuzn-rust
 
 go 1.19
 

@@ -1,9 +1,9 @@
 package main
 
 import (
-	_ "fiber-layout/config"
-	_ "fiber-layout/initalize"
-	"fiber-layout/routers"
+	_ "fiber-nuzn-rust/config"
+	_ "fiber-nuzn-rust/initalize"
+	"fiber-nuzn-rust/routers"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"

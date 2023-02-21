@@ -1,7 +1,7 @@
 package models
 
 import (
-	"fiber-layout/initalize"
+	"fiber-nuzn-rust/initalize"
 )
 
 type Course struct {

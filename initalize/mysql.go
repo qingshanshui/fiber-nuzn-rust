@@ -1,7 +1,8 @@
 package initalize
 
 import (
-	"fiber-layout/pkg/utils"
+	"fiber-nuzn-rust/pkg/utils"
+
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
