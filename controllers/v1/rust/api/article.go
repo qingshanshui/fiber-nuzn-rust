@@ -3,9 +3,9 @@ package api
 import (
 	"fiber-nuzn-rust/controllers"
 	"fiber-nuzn-rust/initalize"
-	"fiber-nuzn-rust/service"
+	apiService "fiber-nuzn-rust/service/api"
 	"fiber-nuzn-rust/validator"
-	"fiber-nuzn-rust/validator/form"
+	apiForm "fiber-nuzn-rust/validator/form/api"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -21,14 +21,14 @@ func NewArticleController() *ArticleController {
 // 文章列表
 func (t *ArticleController) List(c *fiber.Ctx) error {
 	// 初始化参数结构体
-	categoryForm := form.CategoryRequest{}
+	ArticleListRequestForm := apiForm.ArticleListRequest{}
 	// 绑定参数并使用验证器验证参数
-	if err := validator.CheckPostParams(c, &categoryForm); err != nil {
+	if err := validator.CheckPostParams(c, &ArticleListRequestForm); err != nil {
 		initalize.Log.Info(err)
 		return err
 	}
 	// 实际业务调用
-	api, err := service.NewDefaultService().Category(categoryForm)
+	api, err := apiService.NewArticleService().List(ArticleListRequestForm)
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
@@ -39,14 +39,14 @@ func (t *ArticleController) List(c *fiber.Ctx) error {
 // 文章详情
 func (t *ArticleController) Details(c *fiber.Ctx) error {
 	// 初始化参数结构体
-	categoryForm := form.CategoryRequest{}
+	ArticleDetailsRequestForm := apiForm.ArticleDetailsRequest{}
 	// 绑定参数并使用验证器验证参数
-	if err := validator.CheckPostParams(c, &categoryForm); err != nil {
+	if err := validator.CheckPostParams(c, &ArticleDetailsRequestForm); err != nil {
 		initalize.Log.Info(err)
 		return err
 	}
 	// 实际业务调用
-	api, err := service.NewDefaultService().Category(categoryForm)
+	api, err := apiService.NewArticleService().Details(ArticleDetailsRequestForm)
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
