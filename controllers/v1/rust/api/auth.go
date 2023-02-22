@@ -18,6 +18,26 @@ func NewAuthController() *AuthController {
 	return &AuthController{}
 }
 
+// 发送验证码
+func (t *AuthController) Code(c *fiber.Ctx) error {
+
+	// 初始化参数结构体
+	CodeRequestForm := apiForm.CodeRequest{}
+	// 绑定参数并使用验证器验证参数
+	if err := validator.CheckPostParams(c, &CodeRequestForm); err != nil {
+		initalize.Log.Info(err)
+		return err
+	}
+
+	// 实际业务调用
+	err := apiService.NewAuthService().Code(CodeRequestForm)
+	if err != nil {
+		initalize.Log.Info(err)
+		return c.Status(500).JSON(t.Fail(err, 309))
+	}
+	return c.JSON(t.Ok("发送成功")) // => ✋ Login
+}
+
 // 登录
 func (t *AuthController) Login(c *fiber.Ctx) error {
 
