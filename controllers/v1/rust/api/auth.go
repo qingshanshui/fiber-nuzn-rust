@@ -68,10 +68,10 @@ func (t *AuthController) Register(c *fiber.Ctx) error {
 		return err
 	}
 	// 实际业务调用
-	api, err := apiService.NewAuthService().Register(RegisterRequestForm)
+	err := apiService.NewAuthService().Register(RegisterRequestForm)
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
 	}
-	return c.JSON(t.Ok(api)) // => ✋ Login
+	return c.JSON(t.Ok("api")) // => ✋ Login
 }

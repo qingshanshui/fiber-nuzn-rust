@@ -2,6 +2,8 @@ package utils
 
 import (
 	"bytes"
+	"crypto/rand"
+	"encoding/hex"
 	"time"
 )
 
@@ -36,4 +38,11 @@ func GetUnixNano() int64 {
 func GetFileDay() string {
 	template := "2006/01/02"
 	return time.Now().Format(template)
+}
+
+// RandString 生成随机字符串
+func RandString(n int) string {
+	result := make([]byte, n/2)
+	rand.Read(result)
+	return hex.EncodeToString(result)
 }

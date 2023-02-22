@@ -10,3 +10,7 @@ type UserAuth struct {
 	Identifier   string `gorm:"not null;comment:手机号 邮箱 用户名或第三方应用的唯一标识,类似账号" json:"identifier"`         // '手机号 邮箱 用户名或第三方应用的唯一标识,类似账号'
 	Certificate  string `gorm:"comment:密码凭证(站内的保存密码,站外的不保存或保存token),类似密码" json:"certificate"`          // '密码凭证(站内的保存密码,站外的不保存或保存token),类似密码'
 }
+
+func NewUserAuth() *UserAuth {
+	return &UserAuth{}
+}

@@ -2,7 +2,9 @@ package main
 
 import (
 	_ "fiber-nuzn-rust/config"
+	"fiber-nuzn-rust/initalize"
 	_ "fiber-nuzn-rust/initalize"
+	"fiber-nuzn-rust/models"
 	"fiber-nuzn-rust/routers"
 
 	"github.com/gofiber/fiber/v2"
@@ -24,6 +26,8 @@ func main() {
 	app.Use(recover.New())
 	// 设置路由
 	routers.SetRoute(app)
+	// 初始化 数据表
+	initalize.DB.AutoMigrate(models.User{}, models.UserAuth{}, models.Article{})
 	// 监听端口
 	_ = app.Listen(viper.GetString("App.Port"))
 }

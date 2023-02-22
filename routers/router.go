@@ -14,9 +14,9 @@ func SetRoute(app *fiber.App) {
 	// 登录
 	authGroup := group.Group("/auth")
 	auth := api.NewAuthController()
-	authGroup.Post("/code", auth.Code)        // 发送验证码
-	authGroup.Post("/login", auth.Login)       // 登录
+	authGroup.Post("/code", auth.Code)         // 发送验证码
 	authGroup.Post("/register", auth.Register) // 注册
+	authGroup.Post("/login", auth.Login)       // 登录
 
 	// authGroup.Post("/logout")   // 退出登录
 	// authGroup.Post("/code")         // 登录邮箱验证码

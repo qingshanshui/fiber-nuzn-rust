@@ -13,3 +13,7 @@ type Article struct {
 	Top        int    `gorm:"comment:热度" json:"top"`                                 // 置顶
 	Show       int    `gorm:"default:1;not null;comment:文章是否显示,1显示 2隐藏" json:"show"` // 文章是否显示,1显示 2隐藏
 }
+
+func NewArticle() *Article {
+	return &Article{}
+}
