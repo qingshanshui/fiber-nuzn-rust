@@ -18,7 +18,7 @@ func NewArticleController() *ArticleController {
 	return &ArticleController{}
 }
 
-// 用户 文章列表
+// List 用户 文章列表
 func (t *ArticleController) List(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	ArticleListRequestForm := adminForm.ArticleListRequest{}
@@ -36,7 +36,7 @@ func (t *ArticleController) List(c *fiber.Ctx) error {
 	return c.JSON(t.Ok(api)) // => ✋ Login
 }
 
-// 用户 添加文章
+// Add 用户 添加文章
 func (t *ArticleController) Add(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	ArticleAddRequestForm := adminForm.ArticleAddRequest{}
@@ -54,7 +54,7 @@ func (t *ArticleController) Add(c *fiber.Ctx) error {
 	return c.JSON(t.Ok(api)) // => ✋ Login
 }
 
-// 用户 编辑文章
+// Edit 用户 编辑文章
 func (t *ArticleController) Edit(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	ArticleEditRequestForm := adminForm.ArticleEditRequest{}
@@ -72,7 +72,7 @@ func (t *ArticleController) Edit(c *fiber.Ctx) error {
 	return c.JSON(t.Ok(api)) // => ✋ Login
 }
 
-// 用户 删除文章
+// Del 用户 删除文章
 func (t *ArticleController) Del(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	ArticleDelRequestForm := adminForm.ArticleDelRequest{}
@@ -90,7 +90,7 @@ func (t *ArticleController) Del(c *fiber.Ctx) error {
 	return c.JSON(t.Ok(api)) // => ✋ Login
 }
 
-// 用户 文章详情
+// Details 用户 文章详情
 func (t *ArticleController) Details(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	ArticleDetailsRequestForm := adminForm.ArticleDetailsRequest{}

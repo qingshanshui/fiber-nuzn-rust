@@ -24,7 +24,7 @@ func NewUser() *User {
 	return &User{}
 }
 
-// 注册用户
+// Register 注册用户
 func (t *User) Register(user_uid, email string) error {
 
 	// 事务写入两张表
@@ -42,4 +42,12 @@ func (t *User) Register(user_uid, email string) error {
 		return err
 	}
 	return nil
+}
+
+// GetUserInfo 获取用户信息
+func (t *User) GetUserInfo(uid string) (*User, error) {
+	if err := initalize.DB.Raw("SELECT * FROM users WHERE users.user_uid = ? LIMIT 1", uid).Find(&t).Error; err != nil {
+		return nil, err
+	}
+	return t, nil
 }

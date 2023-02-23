@@ -18,7 +18,7 @@ func NewCommentController() *CommentController {
 	return &CommentController{}
 }
 
-// 留言列表
+// List 留言列表
 func (t *CommentController) List(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	CommentListRequestForm := apiForm.CommentListRequest{}

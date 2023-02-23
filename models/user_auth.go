@@ -2,7 +2,6 @@ package models
 
 import (
 	"fiber-nuzn-rust/initalize"
-
 	"gorm.io/gorm"
 )
 
@@ -19,11 +18,11 @@ func NewUserAuth() *UserAuth {
 	return &UserAuth{}
 }
 
-// 查询当前 注册账号是否 存在数据库
+// UsernameIsMl 查询当前 注册账号是否 存在数据库
 func (t *UserAuth) UsernameIsMl(types, username string) ([]UserAuth, error) {
-	results := []UserAuth{}
-	result := initalize.DB.Raw("SELECT user_auths.id FROM user_auths WHERE user_auths.identity_type = ? AND user_auths.identifier = ?  LIMIT 1", types, username).Find(&results)
-	if err := result.Error; err != nil {
+	var results []UserAuth
+	err := initalize.DB.Raw("SELECT * FROM user_auths WHERE user_auths.identity_type = ? AND user_auths.identifier = ?  LIMIT 1", types, username).Find(&results).Error
+	if err != nil {
 		return nil, err
 	}
 	return results, nil

@@ -18,7 +18,7 @@ func NewArticleController() *ArticleController {
 	return &ArticleController{}
 }
 
-// 文章列表
+// List 文章列表
 func (t *ArticleController) List(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	ArticleListRequestForm := apiForm.ArticleListRequest{}
@@ -36,7 +36,7 @@ func (t *ArticleController) List(c *fiber.Ctx) error {
 	return c.JSON(t.Ok(api)) // => ✋ Login
 }
 
-// 文章详情
+// Details 文章详情
 func (t *ArticleController) Details(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	ArticleDetailsRequestForm := apiForm.ArticleDetailsRequest{}

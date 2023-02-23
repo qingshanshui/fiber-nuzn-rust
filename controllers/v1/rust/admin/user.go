@@ -18,7 +18,7 @@ func NewUserController() *UserController {
 	return &UserController{}
 }
 
-// 用户详情
+// Userinfo 用户详情
 func (t *UserController) Userinfo(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	UserInfoRequestForm := apiForm.UserInfoRequest{}

@@ -18,7 +18,7 @@ func NewAuthController() *AuthController {
 	return &AuthController{}
 }
 
-// 发送验证码
+// Code 发送验证码
 func (t *AuthController) Code(c *fiber.Ctx) error {
 
 	// 初始化参数结构体
@@ -38,7 +38,7 @@ func (t *AuthController) Code(c *fiber.Ctx) error {
 	return c.JSON(t.Ok("发送成功")) // => ✋ Login
 }
 
-// 注册
+// Register 注册
 func (t *AuthController) Register(c *fiber.Ctx) error {
 	// 初始化参数结构体
 	RegisterRequestForm := apiForm.RegisterRequest{}
@@ -56,7 +56,7 @@ func (t *AuthController) Register(c *fiber.Ctx) error {
 	return c.JSON(t.Ok("api")) // => ✋ Login
 }
 
-// 登录
+// Login 登录
 func (t *AuthController) Login(c *fiber.Ctx) error {
 
 	// 初始化参数结构体
@@ -67,10 +67,10 @@ func (t *AuthController) Login(c *fiber.Ctx) error {
 		return err
 	}
 	// 实际业务调用
-	err := apiService.NewAuthService().Login(LoginRequestForm)
+	rep, err := apiService.NewAuthService().Login(LoginRequestForm)
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 500))
 	}
-	return c.JSON(t.Ok("")) // => ✋ Login
+	return c.JSON(t.Ok(rep)) // => ✋ Login
 }
