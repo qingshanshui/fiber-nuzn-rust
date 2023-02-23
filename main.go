@@ -27,7 +27,7 @@ func main() {
 	// 设置路由
 	routers.SetRoute(app)
 	// 初始化 数据表
-	initalize.DB.AutoMigrate(models.User{}, models.UserAuth{}, models.Article{})
+	initalize.DB.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.User{}, &models.UserAuth{}, &models.Article{})
 	// 监听端口
 	_ = app.Listen(viper.GetString("App.Port"))
 }

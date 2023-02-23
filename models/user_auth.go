@@ -1,6 +1,10 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"fiber-nuzn-rust/initalize"
+
+	"gorm.io/gorm"
+)
 
 // UserAuth 用户授权表
 type UserAuth struct {
@@ -13,4 +17,14 @@ type UserAuth struct {
 
 func NewUserAuth() *UserAuth {
 	return &UserAuth{}
+}
+
+// 查询当前 注册账号是否 存在数据库
+func (t *UserAuth) UsernameIsMl(types, username string) (int64, error) {
+	results := []map[string]interface{}{}
+	result := initalize.DB.Raw("SELECT user_auths.id FROM user_auths WHERE user_auths.identity_type = ? AND user_auths.identifier = ?  LIMIT 1", types, username).Find(&results)
+	if err := result.Error; err != nil {
+		return 0, err
+	}
+	return result.RowsAffected, nil
 }

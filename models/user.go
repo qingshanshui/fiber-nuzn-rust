@@ -2,7 +2,6 @@ package models
 
 import (
 	"fiber-nuzn-rust/initalize"
-	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -27,18 +26,17 @@ func NewUser() *User {
 
 // 注册用户
 func (t *User) Register(user_uid, email string) error {
-	fmt.Println("==========执行啦用户注册")
+
+	// 事务写入两张表
 	if err := initalize.DB.Transaction(func(tx *gorm.DB) error {
-		fmt.Println("事务开始啦")
 		// 插入主用户表 （user表）
-		if err := tx.Debug().Raw("INSERT INTO users (users.user_uid,users.register_source,users.nick_name,users.created_at) VALUES(?,?,?,?,?)", user_uid, t.NickName, t.RegisterSource, t.CreatedAt).Error; err != nil {
+		if err := tx.Debug().Exec("INSERT INTO users (users.user_uid,users.register_source,users.nick_name,users.created_at) VALUES(?,?,?,?)", user_uid, t.RegisterSource, t.NickName, t.CreatedAt).Error; err != nil {
 			return err
 		}
 		// 插入账号用户表（user_auth表）
-		if err := tx.Debug().Raw("INSERT INTO user_auths (user_auths.user_uid,user_auths.identity_type,user_auths.identifier,user_auths.created_at)VALUES(?,?,?,?,?)", user_uid, t.RegisterSource, email, t.CreatedAt).Error; err != nil {
+		if err := tx.Debug().Exec("INSERT INTO user_auths (user_auths.user_uid,user_auths.identity_type,user_auths.identifier,user_auths.created_at)VALUES(?,?,?,?)", user_uid, t.RegisterSource, email, t.CreatedAt).Error; err != nil {
 			return err
 		}
-		fmt.Println("事务结束啦")
 		return nil
 	}); err != nil {
 		return err
