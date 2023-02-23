@@ -27,8 +27,8 @@ func (t *Auth) Code(c apiForm.CodeRequest) error {
 	if errua != nil {
 		return errua
 	}
-	if i != 0 {
-		return errors.New("该邮箱已注册")
+	if len(i) != 0 {
+		return errors.New("邮箱已注册")
 	}
 
 	// 生成 验证码 存入 redis 1分钟
@@ -45,21 +45,22 @@ func (t *Auth) Code(c apiForm.CodeRequest) error {
 
 // 注册
 func (t *Auth) Register(c apiForm.RegisterRequest) error {
+
+	// 判断 邮箱是否已经注册
+	i, errua := models.NewUserAuth().UsernameIsMl("2", c.Email)
+	if errua != nil {
+		return errua
+	}
+	if len(i) != 0 {
+		return errors.New("邮箱已注册")
+	}
 	// 取redis 验证码 对比传入验证码
 	val, rdberr := initalize.Rdb.Get(context.Background(), c.Email).Result()
 	if rdberr != nil {
 		return rdberr
 	}
 	if val != c.Code {
-		return errors.New("验证码错误")
-	}
-	// 判断 邮箱是否已经注册
-	i, errua := models.NewUserAuth().UsernameIsMl("2", c.Email)
-	if errua != nil {
-		return errua
-	}
-	if i != 0 {
-		return errors.New("该邮箱已注册")
+		return errors.New("邮箱验证码错误")
 	}
 
 	// 组装数据
@@ -76,11 +77,23 @@ func (t *Auth) Register(c apiForm.RegisterRequest) error {
 }
 
 // 登录
-func (t *Auth) Login(c apiForm.LoginRequest) (*models.Course, error) {
+func (t *Auth) Login(c apiForm.LoginRequest) error {
 
-	list, err := models.NewCourse().Category(c.Email)
-	if err != nil {
-		return nil, err
+	// 判断 邮箱是否存在
+	i, errua := models.NewUserAuth().UsernameIsMl("2", c.Email)
+	if errua != nil {
+		return errua
 	}
-	return list, nil
+	if len(i) == 0 {
+		return errors.New("邮箱未注册")
+	}
+	// 取redis 验证码 对比传入验证码
+	val, rdberr := initalize.Rdb.Get(context.Background(), c.Email).Result()
+	if rdberr != nil {
+		return rdberr
+	}
+	if val != c.Code {
+		return errors.New("邮箱验证码错误")
+	}
+	return nil
 }

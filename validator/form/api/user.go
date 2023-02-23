@@ -1,4 +1,4 @@
-package adminForm
+package apiForm
 
 // CategoryRequest 详情
 type UserInfoRequest struct {

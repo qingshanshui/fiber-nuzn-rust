@@ -18,6 +18,11 @@ func SetRoute(app *fiber.App) {
 	authGroup.Post("/register", auth.Register) // 注册
 	authGroup.Post("/login", auth.Login)       // 登录
 
+	// 用户
+	userGroup := group.Group("/user")
+	user := admin.NewUserController()
+	userGroup.Post("/userinfo", user.Userinfo) // 获取用户详情
+
 	// authGroup.Post("/logout")   // 退出登录
 	// authGroup.Post("/code")         // 登录邮箱验证码
 	// authGroup.Post("/oauth/email")  // 邮箱 登录/注册
@@ -44,8 +49,6 @@ func SetRoute(app *fiber.App) {
 	//
 
 	adminGroup := group.Group("/admin")
-	adminUser := admin.NewUserController()
-	adminGroup.Post("/user/userinfo", adminUser.Userinfo) // 获取用户详情
 
 	// 文章
 	adminarticleGroup := adminGroup.Group("/article")

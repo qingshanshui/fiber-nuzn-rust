@@ -1,8 +1,8 @@
-package adminService
+package apiService
 
 import (
 	"fiber-nuzn-rust/models"
-	adminForm "fiber-nuzn-rust/validator/form/admin"
+	apiForm "fiber-nuzn-rust/validator/form/api"
 )
 
 type User struct {
@@ -12,8 +12,7 @@ func NewUserService() *User {
 	return &User{}
 }
 
-func (t *User) List(c adminForm.UserInfoRequest) (*models.Course, error) {
-
+func (t *User) List(c apiForm.UserInfoRequest) (*models.Course, error) {
 	list, err := models.NewCourse().Category(c.Username)
 	if err != nil {
 		return nil, err
