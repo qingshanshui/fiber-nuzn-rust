@@ -32,8 +32,8 @@ func SetRoute(app *fiber.App) {
 	// 文章
 	articleGroup := group.Group("/article")
 	article := api.NewArticleController()
-	articleGroup.Post("/list", article.List)   // 获取所以文章列表 带分页
-	articleGroup.Post("/:id", article.Details) // 通过id获取文章
+	articleGroup.Post("/list", article.List)           // 获取所以文章列表 带分页
+	articleGroup.Post("/details/:id", article.Details) // 通过id获取文章
 
 	// 留言
 	commentGroup := group.Group("/comment")

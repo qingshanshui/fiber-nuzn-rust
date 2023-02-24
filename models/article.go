@@ -38,3 +38,12 @@ func (t *Article) GetTotal() (*int, error) {
 	}
 	return &count, nil
 }
+
+// GetDetails 获取文章详情
+func (t *Article) GetDetails(id string) ([]Article, error) {
+	var result []Article
+	if err := initalize.DB.Raw("SELECT * FROM articles WHERE articles.article_uid = ? LIMIT 1", id).Find(&result).Error; err != nil {
+		return nil, err
+	}
+	return result, nil
+}

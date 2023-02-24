@@ -12,6 +12,7 @@ func NewArticleService() *Article {
 	return &Article{}
 }
 
+// List 文章列表
 func (t *Article) List(c *apiForm.ArticleListRequest) (*apiForm.ArticleListResponse, error) {
 	if c.Size == 0 {
 		c.Size = 16
@@ -36,10 +37,14 @@ func (t *Article) List(c *apiForm.ArticleListRequest) (*apiForm.ArticleListRespo
 	}, nil
 }
 
-func (t *Article) Details(c apiForm.ArticleDetailsRequest) ([]models.Course, error) {
-	list, err := models.NewCourse().List()
+// Details 文章详情
+func (t *Article) Details(id string) (*models.Article, error) {
+	list, err := models.NewArticle().GetDetails(id)
 	if err != nil {
 		return nil, err
 	}
-	return list, nil
+	if len(list) == 0 {
+		return nil, err
+	}
+	return &list[0], nil
 }
