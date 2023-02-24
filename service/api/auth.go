@@ -21,7 +21,7 @@ func NewAuthService() *Auth {
 }
 
 // Code 发送验证码
-func (t *Auth) Code(c apiForm.CodeRequest) error {
+func (t *Auth) Code(c *apiForm.CodeRequest) error {
 
 	// 判断 邮箱是否已经注册
 	//i, errua := models.NewUserAuth().UsernameIsMl("2", c.Email)
@@ -45,7 +45,7 @@ func (t *Auth) Code(c apiForm.CodeRequest) error {
 }
 
 // Register 注册
-func (t *Auth) Register(c apiForm.RegisterRequest) error {
+func (t *Auth) Register(c *apiForm.RegisterRequest) error {
 
 	// 判断 邮箱是否已经注册
 	i, errua := models.NewUserAuth().UsernameIsMl("2", c.Email)
@@ -78,7 +78,7 @@ func (t *Auth) Register(c apiForm.RegisterRequest) error {
 }
 
 // Login 登录
-func (t *Auth) Login(c apiForm.LoginRequest) (*apiForm.LoginResponse, error) {
+func (t *Auth) Login(c *apiForm.LoginRequest) (*apiForm.LoginResponse, error) {
 
 	// 判断 邮箱是否存在
 	i, errua := models.NewUserAuth().UsernameIsMl("2", c.Email)

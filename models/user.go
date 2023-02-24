@@ -25,16 +25,16 @@ func NewUser() *User {
 }
 
 // Register 注册用户
-func (t *User) Register(user_uid, email string) error {
+func (t *User) Register(userUid, email string) error {
 
 	// 事务写入两张表
 	if err := initalize.DB.Transaction(func(tx *gorm.DB) error {
 		// 插入主用户表 （user表）
-		if err := tx.Debug().Exec("INSERT INTO users (users.user_uid,users.register_source,users.nick_name,users.created_at) VALUES(?,?,?,?)", user_uid, t.RegisterSource, t.NickName, t.CreatedAt).Error; err != nil {
+		if err := tx.Debug().Exec("INSERT INTO users (users.user_uid,users.register_source,users.nick_name,users.created_at) VALUES(?,?,?,?)", userUid, t.RegisterSource, t.NickName, t.CreatedAt).Error; err != nil {
 			return err
 		}
 		// 插入账号用户表（user_auth表）
-		if err := tx.Debug().Exec("INSERT INTO user_auths (user_auths.user_uid,user_auths.identity_type,user_auths.identifier,user_auths.created_at)VALUES(?,?,?,?)", user_uid, t.RegisterSource, email, t.CreatedAt).Error; err != nil {
+		if err := tx.Debug().Exec("INSERT INTO user_auths (user_auths.user_uid,user_auths.identity_type,user_auths.identifier,user_auths.created_at)VALUES(?,?,?,?)", userUid, t.RegisterSource, email, t.CreatedAt).Error; err != nil {
 			return err
 		}
 		return nil

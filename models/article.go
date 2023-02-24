@@ -1,6 +1,9 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"fiber-nuzn-rust/initalize"
+	"gorm.io/gorm"
+)
 
 // Article 文章表
 type Article struct {
@@ -16,4 +19,22 @@ type Article struct {
 
 func NewArticle() *Article {
 	return &Article{}
+}
+
+// GetList 获取文章列表
+func (t *Article) GetList(page, size int) (*[]Article, error) {
+	var r []Article
+	if err := initalize.DB.Raw("SELECT * FROM articles LIMIT ?,?", (page-1)*size, size).Find(&r).Error; err != nil {
+		return nil, err
+	}
+	return &r, nil
+}
+
+// GetTotal 获取文章列表总条数
+func (t *Article) GetTotal() (*int, error) {
+	var count int
+	if err := initalize.DB.Raw("SELECT COUNT(*) FROM articles").Find(&count).Error; err != nil {
+		return nil, err
+	}
+	return &count, nil
 }

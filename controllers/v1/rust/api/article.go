@@ -21,9 +21,9 @@ func NewArticleController() *ArticleController {
 // List 文章列表
 func (t *ArticleController) List(c *fiber.Ctx) error {
 	// 初始化参数结构体
-	ArticleListRequestForm := apiForm.ArticleListRequest{}
+	ArticleListRequestForm := &apiForm.ArticleListRequest{}
 	// 绑定参数并使用验证器验证参数
-	if err := validator.CheckPostParams(c, &ArticleListRequestForm); err != nil {
+	if err := validator.CheckPostParams(c, ArticleListRequestForm); err != nil {
 		initalize.Log.Info(err)
 		return err
 	}
