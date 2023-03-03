@@ -28,7 +28,7 @@ func (t *ArticleController) List(c *fiber.Ctx) error {
 		return err
 	}
 	// 实际业务调用
-	api, err := adminService.NewArticleService().List(ArticleListRequestForm)
+	api, err := adminService.NewArticleService().List(ArticleListRequestForm, c.Locals("uid").(string))
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
@@ -46,7 +46,7 @@ func (t *ArticleController) Add(c *fiber.Ctx) error {
 		return err
 	}
 	// 实际业务调用
-	api, err := adminService.NewArticleService().Add(ArticleAddRequestForm)
+	api, err := adminService.NewArticleService().Add(ArticleAddRequestForm, c.Locals("uid").(string))
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
@@ -64,7 +64,7 @@ func (t *ArticleController) Edit(c *fiber.Ctx) error {
 		return err
 	}
 	// 实际业务调用
-	api, err := adminService.NewArticleService().Edit(ArticleEditRequestForm)
+	api, err := adminService.NewArticleService().Edit(ArticleEditRequestForm, c.Locals("uid").(string))
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
@@ -82,7 +82,7 @@ func (t *ArticleController) Del(c *fiber.Ctx) error {
 		return err
 	}
 	// 实际业务调用
-	api, err := adminService.NewArticleService().Del(ArticleDelRequestForm)
+	api, err := adminService.NewArticleService().Del(ArticleDelRequestForm, c.Locals("uid").(string))
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
@@ -100,7 +100,7 @@ func (t *ArticleController) Details(c *fiber.Ctx) error {
 		return err
 	}
 	// 实际业务调用
-	api, err := adminService.NewArticleService().Details(ArticleDetailsRequestForm)
+	api, err := adminService.NewArticleService().Details(ArticleDetailsRequestForm, c.Locals("uid").(string))
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))

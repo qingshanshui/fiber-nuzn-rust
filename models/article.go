@@ -2,6 +2,7 @@ package models
 
 import (
 	"fiber-nuzn-rust/initalize"
+
 	"gorm.io/gorm"
 )
 
@@ -46,4 +47,24 @@ func (t *Article) GetDetails(id string) ([]Article, error) {
 		return nil, err
 	}
 	return result, nil
+}
+
+// ----------admin----------
+
+// GetUserList 获取用户文章列表
+func (t *Article) GetUserList(uid string, page, size int) (*[]Article, error) {
+	var r []Article
+	if err := initalize.DB.Raw("SELECT * FROM articles WHERE articles.user_id = ?  LIMIT ?,?", uid, (page-1)*size, size).Find(&r).Error; err != nil {
+		return nil, err
+	}
+	return &r, nil
+}
+
+// GetUserTotal 获取用户文章列表总条数
+func (t *Article) GetUserTotal(uid string) (*int, error) {
+	var count int
+	if err := initalize.DB.Raw("SELECT COUNT(*) FROM articles WHERE articles.user_id = ? ", uid).Find(&count).Error; err != nil {
+		return nil, err
+	}
+	return &count, nil
 }

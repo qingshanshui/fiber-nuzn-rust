@@ -3,6 +3,7 @@ package routers
 import (
 	"fiber-nuzn-rust/controllers/v1/rust/admin"
 	"fiber-nuzn-rust/controllers/v1/rust/api"
+	"fiber-nuzn-rust/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -14,9 +15,9 @@ func SetRoute(app *fiber.App) {
 	// 登录
 	authGroup := group.Group("/auth")
 	auth := api.NewAuthController()
-	authGroup.Post("/code", auth.Code)         // 发送验证码
-	authGroup.Post("/register", auth.Register) // 注册
-	authGroup.Post("/login", auth.Login)       // 登录
+	authGroup.Post("/code", auth.Code)         // 发送验证码      ***
+	authGroup.Post("/register", auth.Register) // 注册      ***
+	authGroup.Post("/login", auth.Login)       // 登录      ***
 
 	// 用户
 	userGroup := group.Group("/user")
@@ -32,8 +33,8 @@ func SetRoute(app *fiber.App) {
 	// 文章
 	articleGroup := group.Group("/article")
 	article := api.NewArticleController()
-	articleGroup.Post("/list", article.List)           // 获取所以文章列表 带分页
-	articleGroup.Post("/details/:id", article.Details) // 通过id获取文章
+	articleGroup.Post("/list", article.List)           // 获取所以文章列表 带分页      ***
+	articleGroup.Post("/details/:id", article.Details) // 通过id获取文章      ***
 
 	// 留言
 	commentGroup := group.Group("/comment")
@@ -49,15 +50,16 @@ func SetRoute(app *fiber.App) {
 	//
 
 	adminGroup := group.Group("/admin")
+	adminGroup.Use(middleware.Auth)
 
 	// 文章
-	adminarticleGroup := adminGroup.Group("/article")
+	adminArticleGroup := adminGroup.Group("/article")
 	adminArticle := admin.NewArticleController()
-	adminarticleGroup.Post("/list", adminArticle.List)   // admin文章列表
-	adminarticleGroup.Post("/add", adminArticle.Add)     // admin添加文章
-	adminarticleGroup.Post("/edit", adminArticle.Edit)   // admin编辑文章
-	adminarticleGroup.Post("/del", adminArticle.Del)     // admin删除文章
-	adminarticleGroup.Post("/:id", adminArticle.Details) // admin文章详情
+	adminArticleGroup.Post("/list", adminArticle.List)   // admin文章列表
+	adminArticleGroup.Post("/add", adminArticle.Add)     // admin添加文章
+	adminArticleGroup.Post("/edit", adminArticle.Edit)   // admin编辑文章
+	adminArticleGroup.Post("/del", adminArticle.Del)     // admin删除文章
+	adminArticleGroup.Post("/:id", adminArticle.Details) // admin文章详情
 
 	// userGroup.Post("/userinfo/update/:id") // 更新用户详情
 
