@@ -68,3 +68,40 @@ func (t *Article) GetUserTotal(uid string) (*int, error) {
 	}
 	return &count, nil
 }
+
+// GetUserDetails 获取用户文章详情
+func (t *Article) GetUserDetails(id, uid string) ([]Article, error) {
+	var result []Article
+	if err := initalize.DB.Raw("SELECT * FROM articles WHERE articles.article_uid = ? and articles.user_id = ?  LIMIT 1", id, uid).Find(&result).Error; err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// GetUserDetails 删除用户文章
+func (t *Article) GetUserDel(id, uid string) error {
+	if err := initalize.DB.Raw("DELETE FROM articles WHERE articles.article_uid = ? AND articles.user_id = ?", id, uid).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetUserDetails 添加用户文章
+func (t *Article) GetUserAdd(c *Article, uid string) (*[]Article, error) {
+	var result []Article
+	if err := initalize.DB.Raw("INSERT INTO articles (articles.article_uid,articles.content,articles.created_at,articles.hot,articles.id,articles.`show`,articles.title,articles.top,articles.user_id) VALUES (?,?,?,?,?,?,?,?,?)",
+		c.ArticleUid, c.Content, c.CreatedAt, c.Hot, c.ID, c.Show, c.Title, c.Top, uid).Find(&result).Error; err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// GetUserDetails 编辑用户文章
+func (t *Article) GetUserEdit(c *Article, uid string) (*[]Article, error) {
+	var result []Article
+	if err := initalize.DB.Raw("UPDATE articles SET articles.content = ? articles.hot = ? articles.`show` =? articles.title = ? articles.top =? articles.updated_at=? WHERE articles.article_uid = ? AND articles.user_id = ?",
+		c.Content, c.Hot, c.Show, c.Title, c.Top, c.UpdatedAt, c.ArticleUid, uid).Find(&result).Error; err != nil {
+		return nil, err
+	}
+	return &result, nil
+}

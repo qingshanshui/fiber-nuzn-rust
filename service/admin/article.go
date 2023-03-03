@@ -12,6 +12,7 @@ func NewArticleService() *Article {
 	return &Article{}
 }
 
+// 用户文章列表
 func (t *Article) List(c adminForm.ArticleListRequest, uid string) (*adminForm.ArticleListResponse, error) {
 
 	if c.Size == 0 {
@@ -37,38 +38,44 @@ func (t *Article) List(c adminForm.ArticleListRequest, uid string) (*adminForm.A
 	}, nil
 }
 
-func (t *Article) Add(c adminForm.ArticleAddRequest, uid string) (*models.Course, error) {
+// 用户添加文章
+func (t *Article) Add(c adminForm.ArticleAddRequest, uid string) (*[]models.Article, error) {
 
-	list, err := models.NewCourse().Category(c.Username)
+	list, err := models.NewArticle().GetUserAdd(&models.Article{}, uid)
 	if err != nil {
 		return nil, err
 	}
 	return list, nil
 }
 
-func (t *Article) Del(c adminForm.ArticleDelRequest, uid string) (*models.Course, error) {
+// 用户删除文章
+func (t *Article) Del(c adminForm.ArticleDelRequest, uid string) error {
+	err := models.NewArticle().GetUserDel(c.Id, uid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
-	list, err := models.NewCourse().Category(c.Username)
+// 用户编辑文章
+func (t *Article) Edit(c adminForm.ArticleEditRequest, uid string) (*[]models.Article, error) {
+
+	list, err := models.NewArticle().GetUserEdit(&models.Article{}, uid)
 	if err != nil {
 		return nil, err
 	}
 	return list, nil
 }
 
-func (t *Article) Edit(c adminForm.ArticleEditRequest, uid string) (*models.Course, error) {
+// 用户文章详情
+func (t *Article) Details(id, uid string) (*models.Article, error) {
 
-	list, err := models.NewCourse().Category(c.Username)
+	list, err := models.NewArticle().GetUserDetails(id, uid)
 	if err != nil {
 		return nil, err
 	}
-	return list, nil
-}
-
-func (t *Article) Details(c adminForm.ArticleDetailsRequest, uid string) (*models.Course, error) {
-
-	list, err := models.NewCourse().Category(c.Username)
-	if err != nil {
+	if len(list) == 0 {
 		return nil, err
 	}
-	return list, nil
+	return &list[0], nil
 }

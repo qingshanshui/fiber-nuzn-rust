@@ -14,26 +14,17 @@ type ArticleListResponse struct {
 	Total *int              `form:"total" json:"total"` // 总条数
 }
 
-// ArticleAddRequest 详情
+// ArticleAddRequest 添加文章
 type ArticleAddRequest struct {
-	Username string `form:"username" json:"username"  validate:"required"` //  账号，验证规则：必填
-	Password string `form:"password" json:"password"  validate:"required"` //  密码，验证规则：必填
+	*models.Article
 }
 
-// ArticleDelRequest 详情
+// ArticleDelRequest 删除文章
 type ArticleDelRequest struct {
-	Username string `form:"username" json:"username"  validate:"required"` //  账号，验证规则：必填
-	Password string `form:"password" json:"password"  validate:"required"` //  密码，验证规则：必填
+	Id string `form:"id" json:"id"  validate:"required"` //  账号，验证规则：必填
 }
 
-// ArticleEditRequest 详情
+// ArticleEditRequest 编辑
 type ArticleEditRequest struct {
-	Username string `form:"username" json:"username"  validate:"required"` //  账号，验证规则：必填
-	Password string `form:"password" json:"password"  validate:"required"` //  密码，验证规则：必填
-}
-
-// ArticleDetailsRequest 详情
-type ArticleDetailsRequest struct {
-	Username string `form:"username" json:"username"  validate:"required"` //  账号，验证规则：必填
-	Password string `form:"password" json:"password"  validate:"required"` //  密码，验证规则：必填
+	*models.Article
 }

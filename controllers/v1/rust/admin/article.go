@@ -33,7 +33,7 @@ func (t *ArticleController) List(c *fiber.Ctx) error {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
 	}
-	return c.JSON(t.Ok(api)) // => ✋ Login
+	return c.JSON(t.Ok(api))
 }
 
 // Add 用户 添加文章
@@ -51,7 +51,7 @@ func (t *ArticleController) Add(c *fiber.Ctx) error {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
 	}
-	return c.JSON(t.Ok(api)) // => ✋ Login
+	return c.JSON(t.Ok(api))
 }
 
 // Edit 用户 编辑文章
@@ -69,7 +69,7 @@ func (t *ArticleController) Edit(c *fiber.Ctx) error {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
 	}
-	return c.JSON(t.Ok(api)) // => ✋ Login
+	return c.JSON(t.Ok(api))
 }
 
 // Del 用户 删除文章
@@ -82,28 +82,21 @@ func (t *ArticleController) Del(c *fiber.Ctx) error {
 		return err
 	}
 	// 实际业务调用
-	api, err := adminService.NewArticleService().Del(ArticleDelRequestForm, c.Locals("uid").(string))
+	err := adminService.NewArticleService().Del(ArticleDelRequestForm, c.Locals("uid").(string))
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
 	}
-	return c.JSON(t.Ok(api)) // => ✋ Login
+	return c.JSON(t.Ok("删除成功"))
 }
 
 // Details 用户 文章详情
 func (t *ArticleController) Details(c *fiber.Ctx) error {
-	// 初始化参数结构体
-	ArticleDetailsRequestForm := adminForm.ArticleDetailsRequest{}
-	// 绑定参数并使用验证器验证参数
-	if err := validator.CheckPostParams(c, &ArticleDetailsRequestForm); err != nil {
-		initalize.Log.Info(err)
-		return err
-	}
 	// 实际业务调用
-	api, err := adminService.NewArticleService().Details(ArticleDetailsRequestForm, c.Locals("uid").(string))
+	api, err := adminService.NewArticleService().Details(c.Params("id"), c.Locals("uid").(string))
 	if err != nil {
 		initalize.Log.Info(err)
 		return c.Status(500).JSON(t.Fail(err, 309))
 	}
-	return c.JSON(t.Ok(api)) // => ✋ Login
+	return c.JSON(t.Ok(api))
 }
