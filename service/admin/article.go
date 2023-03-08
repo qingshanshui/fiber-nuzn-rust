@@ -3,6 +3,10 @@ package adminService
 import (
 	"fiber-nuzn-rust/models"
 	adminForm "fiber-nuzn-rust/validator/form/admin"
+	"fmt"
+	"time"
+
+	gonanoid "github.com/matoous/go-nanoid/v2"
 )
 
 type Article struct {
@@ -40,8 +44,13 @@ func (t *Article) List(c adminForm.ArticleListRequest, uid string) (*adminForm.A
 
 // 用户添加文章
 func (t *Article) Add(c adminForm.ArticleAddRequest, uid string) (*[]models.Article, error) {
-
-	list, err := models.NewArticle().GetUserAdd(&models.Article{}, uid)
+	id, err := gonanoid.New()
+	if err != nil {
+		return nil, err
+	}
+	c.CreatedAt = time.Now()
+	c.ArticleUid = id
+	list, err := models.NewArticle().GetUserAdd(&c.Article, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -50,6 +59,7 @@ func (t *Article) Add(c adminForm.ArticleAddRequest, uid string) (*[]models.Arti
 
 // 用户删除文章
 func (t *Article) Del(c adminForm.ArticleDelRequest, uid string) error {
+	fmt.Println(c.Id, uid, "=============")
 	err := models.NewArticle().GetUserDel(c.Id, uid)
 	if err != nil {
 		return err

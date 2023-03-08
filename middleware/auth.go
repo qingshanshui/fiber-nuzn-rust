@@ -11,16 +11,16 @@ func Auth(ctx *fiber.Ctx) error {
 	var header = ctx.GetReqHeaders()
 	var token = header["Authorization"]
 	if token == "" {
-		return ctx.Status(500).JSON(fiber.Map{
-			"code": 0,
+		return ctx.Status(401).JSON(fiber.Map{
+			"code": 401,
 			"data": "未传token",
 			"msg":  "操作失败",
 		})
 	}
 	MapClaims, err := utils.ParseToken(header["Authorization"], viper.GetString("Jwt.Secret"))
 	if err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
-			"code": 0,
+		return ctx.Status(401).JSON(fiber.Map{
+			"code": 401,
 			"data": "token失效",
 			"msg":  "操作失败",
 		})

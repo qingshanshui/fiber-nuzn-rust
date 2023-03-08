@@ -16,7 +16,7 @@ type ArticleListResponse struct {
 
 // ArticleAddRequest 添加文章
 type ArticleAddRequest struct {
-	*models.Article
+	models.Article
 }
 
 // ArticleDelRequest 删除文章
@@ -26,5 +26,5 @@ type ArticleDelRequest struct {
 
 // ArticleEditRequest 编辑
 type ArticleEditRequest struct {
-	*models.Article
+	models.Article
 }

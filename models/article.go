@@ -80,7 +80,7 @@ func (t *Article) GetUserDetails(id, uid string) ([]Article, error) {
 
 // GetUserDetails 删除用户文章
 func (t *Article) GetUserDel(id, uid string) error {
-	if err := initalize.DB.Raw("DELETE FROM articles WHERE articles.article_uid = ? AND articles.user_id = ?", id, uid).Error; err != nil {
+	if err := initalize.DB.Exec("DELETE FROM articles WHERE articles.article_uid = ? AND articles.user_id = ?", id, uid).Error; err != nil {
 		return err
 	}
 	return nil
@@ -89,8 +89,8 @@ func (t *Article) GetUserDel(id, uid string) error {
 // GetUserDetails 添加用户文章
 func (t *Article) GetUserAdd(c *Article, uid string) (*[]Article, error) {
 	var result []Article
-	if err := initalize.DB.Raw("INSERT INTO articles (articles.article_uid,articles.content,articles.created_at,articles.hot,articles.id,articles.`show`,articles.title,articles.top,articles.user_id) VALUES (?,?,?,?,?,?,?,?,?)",
-		c.ArticleUid, c.Content, c.CreatedAt, c.Hot, c.ID, c.Show, c.Title, c.Top, uid).Find(&result).Error; err != nil {
+	if err := initalize.DB.Raw("INSERT INTO articles (articles.article_uid,articles.content,articles.created_at,articles.hot,articles.`show`,articles.title,articles.top,articles.user_id) VALUES (?,?,?,?,?,?,?,?)",
+		c.ArticleUid, c.Content, c.CreatedAt, c.Hot, c.Show, c.Title, c.Top, uid).Find(&result).Error; err != nil {
 		return nil, err
 	}
 	return &result, nil
